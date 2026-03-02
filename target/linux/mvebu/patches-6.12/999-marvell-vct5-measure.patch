@@ -26,5 +26,5 @@
 -	phydev_err(phydev, "Timeout while waiting for cable test to finish\n");
 +	phydev_err(phydev, "marvell_vct5: TIMEOUT after %lld ms iterations=10000\n",
 +		ktime_to_ms(ktime_sub(ktime_get(), start)));
-  return -ETIMEDOUT;
+	return -ETIMEDOUT;
  }
