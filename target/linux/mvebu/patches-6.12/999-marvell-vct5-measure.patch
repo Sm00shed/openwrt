@@ -8,7 +8,7 @@
  
 -	for (i = 0; i < 32; i++) {
 +	start = ktime_get();
-+
+ 
 +	for (i = 0; i < 10000; i++) {
  		val = __phy_read(phydev, MII_VCT5_CTRL);
  		if (val < 0)
@@ -26,6 +26,5 @@
 -	phydev_err(phydev, "Timeout while waiting for cable test to finish\n");
 +	phydev_err(phydev, "marvell_vct5: TIMEOUT after %lld ms iterations=10000\n",
 +		ktime_to_ms(ktime_sub(ktime_get(), start)));
-
   return -ETIMEDOUT;
  }
