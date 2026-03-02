@@ -1,0 +1,30 @@
+--- a/drivers/net/phy/marvell.c
++++ b/drivers/net/phy/marvell.c
+@@ -2211,13 +2211,28 @@ static int marvell_vct5_wait_complete(struct phy_device *phydev)
+ 	int i;
+ 	int val;
++	ktime_t start, ready;
++	s64 elapsed_ns;
+ 
+-	for (i = 0; i < 32; i++) {
++	start = ktime_get();
+ 
++	for (i = 0; i < 10000; i++) {
+ 		val = __phy_read(phydev, MII_VCT5_CTRL);
+ 		if (val < 0)
+ 			return val;
+-		if (val & MII_VCT5_CTRL_COMPLETE)
++		if (val & MII_VCT5_CTRL_COMPLETE) {
++			ready = ktime_get();
++			elapsed_ns = ktime_to_ns(ktime_sub(ready, start));
++			phydev_info(phydev, "marvell_vct5: completed after %lld ns (%lld ms) iterations=%d\n",
++				elapsed_ns, elapsed_ns / 1000000, i);
++			return 0;
++		}
++		usleep_range(500, 1000);
+ 	}
+-	phydev_err(phydev, "Timeout while waiting for cable test to finish\n");
++	phydev_err(phydev, "marvell_vct5: TIMEOUT after %lld ms iterations=10000\n",
++		ktime_to_ms(ktime_sub(ktime_get(), start)));
+	return -ETIMEDOUT;
+ }
