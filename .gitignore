@@ -35,3 +35,8 @@ git-src
 .cproject
 .ccache
 .vscode*
+!files/etc/apk/repositories.d/openwrt.conf
+!files/
+!files/etc/
+!files/etc/apk/
+!files/etc/apk/repositories.d/
