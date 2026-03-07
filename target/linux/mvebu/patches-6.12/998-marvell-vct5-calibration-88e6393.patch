@@ -1,0 +1,17 @@
+--- a/drivers/net/phy/marvell.c	2026-03-07 08:34:41.381490480 +0100
++++ b/drivers/net/phy/marvell.c	2026-03-07 08:39:54.880492849 +0100
+@@ -2252,12 +2252,12 @@
+ 
+ static u32 marvell_vct5_distance2cm(int distance)
+ {
+-	return distance * 805 / 10;
++	return distance * 1000 / 10;
+ }
+ 
+ static u32 marvell_vct5_cm2distance(int cm)
+ {
+-	return cm * 10 / 805;
++	return cm * 10 / 1000;
+ }
+ 
+ static int marvell_vct5_amplitude_distance(struct phy_device *phydev,
